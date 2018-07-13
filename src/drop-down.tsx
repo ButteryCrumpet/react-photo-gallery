@@ -5,22 +5,55 @@ interface IProps {
     children?: any
 }
 
-const DropDown: React.SFC<IProps> = (props) => {
-    const innerStyle = {
-        padding: "1px",
-        transform: `translateY(${props.active ? "0" : "-100%"})`,
-        transition: "transform 0.2s ease-in",
+interface IState {
+    height: number
+}
+
+class DropDown extends React.Component<IProps, IState> {
+    private innerStyle = {
+        position: "absolute" as "absolute",
+        width: "100%",
+        heigh: "100%",
+        bottom: "0px"
     }
-    const containerStyle = {
-        overflow: "hidden",
+
+    private heightRef: HTMLElement | null
+
+    constructor(props: IProps) {
+        super(props)
+        this.state = {
+            height: 0
+        }
     }
-    return (
-        <div style={containerStyle}>
-            <div style={innerStyle}>
-            {props.children}
+
+    componentDidMount() {
+        if (this.heightRef) {
+            this.setState({height: this.heightRef.getBoundingClientRect().height})
+        }
+    }
+
+    render() {
+        return (
+            <div style={this.getContainerStyle()}>
+                <div ref={ ref => this.heightRef = ref } style={this.innerStyle}>
+                {this.props.children}
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+
+    private getContainerStyle = () => {
+        const base = {
+            position: "relative" as "relative",
+            overflow: "hidden",
+            transition: "height 0.2s ease-in",
+            height: "0px"
+        }
+        if (this.state.height > 0 && this.props.active) {
+            base.height = `${this.state.height}px`
+        }
+        return base
+    }
 }
 
 export default DropDown

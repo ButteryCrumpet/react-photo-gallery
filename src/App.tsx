@@ -3,6 +3,7 @@ import './App.css'
 import DropDown from "./drop-down"
 import ResponsiveImage from "./responsive-image"
 import SimpleSlider from "./simple-slider"
+import Swipable from "./swipeable"
 
 interface IState {
   images: string[]
@@ -30,31 +31,42 @@ class App extends React.Component<{}, IState> {
   public render() {
     return (
       <div className="App">
-        <header>
-          <h4>Emil Photography</h4>
+        <header style={{padding:"10px"}}>
+          <h4 style={{fontFamily:"Tahoma, Geneva, sans-serif", margin:"0px"}}>Photography</h4>
         </header>
-        <div style={{textAlign: "center"}} onClick={this.toggleMenu}>&#8897;</div>
-        <div style={{position: "absolute", width: "100%"}}>
+
+        <div style={{position: "absolute", width: "100%", backgroundColor:"white"}}>
           <DropDown active={this.state.menuActive}>
             <SimpleSlider activeItem={this.state.currentIndex}>
               {this.state.images.map(this.renderImageListItem)}
             </SimpleSlider>
           </DropDown>
-        </div>
-        <div className="content">
-          <div onClick={this.prevImage}>&#8810;</div>
-          <div style={{height: "100%", width: "90%"}}>
-            <ResponsiveImage imageSrc={this.state.images[this.state.currentIndex]}/>
+          <div style={{display:"flex",justifyContent:"center",cursor:"pointer"}} onClick={this.toggleMenu}>
+            <div style={{fontSize: "1.5em"}}>
+              {
+                this.state.menuActive
+                ? (<strong>&#8743;</strong>)
+                : (<strong>&#8744;</strong>)
+              }
+            </div>
           </div>
-          <div onClick={this.nextImage}>&#8811;</div>
         </div>
+        <Swipable swipeL={this.nextImage} swipeR={this.prevImage}>
+          <div className="content">
+            <div style={{height: "100%", width: "95%"}}>
+              <ResponsiveImage imageSrc={this.state.images[this.state.currentIndex]}/>
+            </div>
+            <div style={{position:"absolute",top:"50%",cursor:"pointer",left:"1rem",fontSize:"1.5rem"}} onClick={this.prevImage}>&#8810;</div>
+            <div style={{position:"absolute",top:"50%",cursor:"pointer",right:"1rem",fontSize:"1.5rem"}} onClick={this.nextImage}>&#8811;</div>
+          </div>
+        </Swipable>
       </div>
     );
   }
 
   private renderImageListItem = (src: string, index: number) => {
     return (
-      <div key={index} onClick={this.setImageIndex(index)} style={{width: "5rem", height: "5rem", margin: "5px"}}>
+      <div key={index} onClick={this.setImageIndex(index)} style={{width: "6rem", height: "6rem", margin: "5px"}}>
         <ResponsiveImage imageSrc={src} type="cover"/>
       </div>
     )

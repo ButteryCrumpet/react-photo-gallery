@@ -5,6 +5,8 @@
 html {
   height: 100vh;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .App {
@@ -18,10 +20,14 @@ html {
 }
 
 .pp-thumbnail {
-  margin-left: 5px;
+  margin-left: 2px;
   cursor: pointer;
 }
 
 .ss-window {
   background-color: white;
+}
+
+.ss-active > div {
+  border: 5px solid rgb(165, 218, 240)
 }

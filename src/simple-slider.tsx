@@ -51,7 +51,7 @@ class SimpleSlider extends React.Component<IProps, IState> {
                     {React.Children.map(
                         this.props.children,
                         (e, i) =>
-                            <div ref={this.itemRefs[i]} key={i} style={this.slideItemStyle}>
+                            <div ref={this.itemRefs[i]} className={this.getClassName(i)} key={i} style={this.slideItemStyle}>
                                 {e}
                             </div>
                         )}
@@ -73,22 +73,38 @@ class SimpleSlider extends React.Component<IProps, IState> {
         return this.windowRef.getBoundingClientRect().width
     }
 
-    private getDistanceToActive = () => {
-        if (!this.state) {
-            return 0
-        }
-        const active = this.props.activeItem
-        const distFromBeginning = this.state.widths
-            .filter((_e, i) => i <= active)
-            .reduce((p, c, i) => active === i ? p + (c/2) : p + c, 0)
-        return + (this.state.windowWidth / 2) - distFromBeginning 
-    }
-
     private getWidth = (e: HTMLDivElement | null) => {
         if (!e) {
             return 0
         }
         return e.getBoundingClientRect().width
+    }
+
+    private getDistanceToActive = () => {
+        if (!this.state) {
+            return 0
+        }
+        const active = this.props.activeItem
+        const { distanceToActive, fullWidth } = this.state.widths
+            .reduce((p, c, i) => {
+                if (active === i) { 
+                    return {distanceToActive: p.distanceToActive + (c/2), fullWidth: p.fullWidth + c}
+                }
+                if (i > active) {
+                    return {distanceToActive: p.distanceToActive, fullWidth: p.fullWidth + c}
+                }
+                return {distanceToActive: p.distanceToActive + c, fullWidth: p.fullWidth + c}
+            
+            }, { distanceToActive: 0, fullWidth: 0})
+
+        const halfWindowWidth = this.state.windowWidth / 2
+        if (distanceToActive < halfWindowWidth) {
+            return 0
+        }
+        if (distanceToActive > (fullWidth - halfWindowWidth)) {
+            return - (fullWidth - this.state.windowWidth)
+        }
+        return - (distanceToActive - halfWindowWidth)
     }
 
     private disableAnimation = () => {
@@ -101,6 +117,19 @@ class SimpleSlider extends React.Component<IProps, IState> {
 
     private shouldAnimate = () => {
         return this.animate
+    }
+
+    private getClassName = (i: number) => {
+        if (i === this.props.activeItem) {
+            return "ss-active"
+        }
+        if (i === this.props.activeItem - 1) {
+            return "ss-previous"
+        }
+        if (i === this.props.activeItem + 1) {
+            return "ss-next"
+        }
+        return ""
     }
 }
 

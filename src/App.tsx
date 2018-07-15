@@ -66,7 +66,7 @@ class App extends React.Component<{}, IState> {
 
   private renderImageListItem = (src: string, index: number) => {
     return (
-      <div key={index} onClick={this.setImageIndex(index)} style={{width: "6rem", height: "6rem", margin: "5px"}}>
+      <div key={index} onClick={this.setImageIndex(index)} style={{width: "6rem", height: "6rem", margin: "2px"}}>
         <ResponsiveImage imageSrc={src} type="cover"/>
       </div>
     )

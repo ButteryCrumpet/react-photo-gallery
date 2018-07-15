@@ -1,0 +1,10 @@
+- ss -> scrollable
+- Loading for main image
+- Category navigation
+- meta tags
+-? routing
+- social buttons
+- about page
+- keyboard navigation
+- STYLING
+- BACKEND

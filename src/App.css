@@ -3,20 +3,23 @@
 }
 
 html {
-  height: 100vh;
   overflow: hidden;
   margin: 0;
   padding: 0;
 }
 
 .App {
-  max-height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  height: 8vh;
 }
 
 .content {
   display: flex;
   justify-content: center;
-  height: 93vh;
+  height: 90vh;
 }
 
 .pp-thumbnail {

@@ -5,18 +5,38 @@ interface IProps {
     type?: "contain" | "cover"
 }
 
-const ResponsiveImage: React.SFC<IProps> = (props) => {
-    const imgCss = {
-        backgroundImage: `url(${props.imageSrc})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: props.type ? props.type : "contain",
-        height: "100%",
-        width: "100%"
+interface IState {
+    loaded: boolean
+    image: HTMLImageElement
+}
+
+class ResponsiveImage extends React.Component<IProps, IState> {
+
+    constructor(props: IProps) {
+        super(props)
+        this.state = {
+            loaded: false,
+            image: new HTMLImageElement
+        }
     }
-    return (
-        <div className="responsive-img" style={imgCss} />
-    );
+
+    render() {
+        
+        return (
+            <div className="responsive-img" style={this.getImageStyle()} />
+        );
+    }
+
+    private getImageStyle = () => {
+        return {
+            backgroundImage: `url(${this.props.imageSrc})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: this.props.type ? this.props.type : "contain",
+            height: "100%",
+            width: "100%"
+        }
+    }
 }
 
 export default ResponsiveImage;

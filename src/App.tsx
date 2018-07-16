@@ -4,6 +4,7 @@ import DropDown from "./drop-down"
 import ResponsiveImage from "./responsive-image"
 import SimpleSlider from "./simple-slider"
 import Swipable from "./swipeable"
+import FullScreen from "./full-screen"
 
 interface IState {
   images: string[]
@@ -23,6 +24,24 @@ class App extends React.Component<{}, IState> {
         "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
         "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
         "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+        "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
+        "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
+        "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
       ],
       menuActive: false
     }
@@ -30,8 +49,8 @@ class App extends React.Component<{}, IState> {
 
   public render() {
     return (
-      <div className="App">
-        <header style={{padding:"10px"}}>
+      <FullScreen >
+        <header className="header" style={{padding:"10px"}}>
           <h4 style={{fontFamily:"Tahoma, Geneva, sans-serif", margin:"0px"}}>Photography</h4>
         </header>
 
@@ -42,15 +61,16 @@ class App extends React.Component<{}, IState> {
             </SimpleSlider>
           </DropDown>
           <div style={{display:"flex",justifyContent:"center",cursor:"pointer"}} onClick={this.toggleMenu}>
-            <div style={{fontSize: "1.5em"}}>
+            <div style={{fontSize: "1em"}}>
               {
                 this.state.menuActive
-                ? (<strong>&#8743;</strong>)
-                : (<strong>&#8744;</strong>)
+                  ? (<strong>&#8743;</strong>)
+                  : (<strong>&#8744;</strong>)
               }
             </div>
           </div>
         </div>
+
         <Swipable swipeL={this.nextImage} swipeR={this.prevImage}>
           <div className="content">
             <div style={{height: "100%", width: "95%"}}>
@@ -60,13 +80,13 @@ class App extends React.Component<{}, IState> {
             <div style={{position:"absolute",top:"50%",cursor:"pointer",right:"1rem",fontSize:"1.5rem"}} onClick={this.nextImage}>&#8811;</div>
           </div>
         </Swipable>
-      </div>
+      </FullScreen>
     );
   }
 
   private renderImageListItem = (src: string, index: number) => {
     return (
-      <div key={index} onClick={this.setImageIndex(index)} style={{width: "6rem", height: "6rem", margin: "2px"}}>
+      <div key={index} onClick={this.setImageIndex(index)} style={{width: "4rem", height: "4rem", margin: "2px"}}>
         <ResponsiveImage imageSrc={src} type="cover"/>
       </div>
     )

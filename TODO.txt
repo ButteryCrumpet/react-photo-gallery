@@ -1,5 +1,5 @@
-- ss -> scrollable
-- Loading for main image
+- ss -> scrollable DONE
+- Loading for main image 
 - Category navigation
 - meta tags
 -? routing

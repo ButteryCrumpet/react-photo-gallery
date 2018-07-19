@@ -5,23 +5,17 @@ import ResponsiveImage from "./responsive-image"
 import SimpleSlider from "./simple-slider"
 import Swipable from "./swipeable"
 import FullScreen from "./full-screen"
+import { RouteComponentProps, Link } from "react-router-dom"
 
 interface IState {
   images: string[]
-  currentIndex: number
   menuActive: boolean
 }
 
-interface IProps {
-  match: {params: {id?: string}}
-}
-
-class ImageGallery extends React.Component<IProps, IState> {
+class ImageGallery extends React.Component<RouteComponentProps<any>, IState> {
   constructor(props: any) {
     super(props)
-    console.log(this.props)
     this.state = {
-      currentIndex: parseInt(this.props.match.params.id || "0") || 0,
       images: [
         "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
         "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
@@ -50,7 +44,6 @@ class ImageGallery extends React.Component<IProps, IState> {
       ],
       menuActive: true
     }
-    console.log(this.state)
   }
   // list parent categories -> child category list dropdown -> click -> load images
   // routing 
@@ -63,7 +56,7 @@ class ImageGallery extends React.Component<IProps, IState> {
 
         <div style={{zIndex: 1000 ,position: "absolute", width: "100%", backgroundColor:"white"}}>
           <DropDown active={this.state.menuActive}>
-            <SimpleSlider activeItem={this.state.currentIndex}>
+            <SimpleSlider activeItem={this.currentIndex()}>
               {this.state.images.map(this.renderImageListItem)}
             </SimpleSlider>
           </DropDown>
@@ -81,7 +74,7 @@ class ImageGallery extends React.Component<IProps, IState> {
         <Swipable swipeL={this.nextImage} swipeR={this.prevImage}>
           <div className="content">
             <div style={{height: "100%", width: "95%"}}>
-              <ResponsiveImage imageSrc={this.state.images[this.state.currentIndex]}/>
+              <ResponsiveImage imageSrc={this.state.images[this.currentIndex()]}/>
             </div>
             <div style={{position:"absolute",top:"50%",cursor:"pointer",left:"1rem",fontSize:"1.5rem"}} onClick={this.prevImage}>&#8810;</div>
             <div style={{position:"absolute",top:"50%",cursor:"pointer",right:"1rem",fontSize:"1.5rem"}} onClick={this.nextImage}>&#8811;</div>
@@ -94,32 +87,28 @@ class ImageGallery extends React.Component<IProps, IState> {
 
   private renderImageListItem = (src: string, index: number) => {
     return (
-      <div key={index} onClick={this.setImageIndex(index)} style={{width: "4rem", height: "4rem", margin: "2px"}}>
-        <ResponsiveImage imageSrc={src} type="cover"/>
+      <div key={index} style={{width: "4rem", height: "4rem", margin: "2px"}}>
+        <Link to={`/${index}`}>
+          <ResponsiveImage imageSrc={src} type="cover"/>
+        </Link>
       </div>
     )
   }
 
   private nextImage = () => {
-    const next = this.state.currentIndex + 1 >= this.state.images.length
-      ? 0
-      : this.state.currentIndex + 1;
-    this.setState({...this.setState, currentIndex: next});
+    
   }
 
   private prevImage = () => {
-    const next = this.state.currentIndex - 1 < 0
-      ? this.state.images.length - 1
-      : this.state.currentIndex - 1;
-    this.setState({...this.setState, currentIndex: next});
-  }
-  
-  private setImageIndex = (i: number) => () => {
-    this.setState({...this.state, currentIndex: i})
+    
   }
 
   private toggleMenu = () => {
     this.setState({...this.state, menuActive: !this.state.menuActive})
+  }
+
+  private currentIndex = () => {
+    return parseInt(this.props.match.params.id || "0") || 0 
   }
 }
 

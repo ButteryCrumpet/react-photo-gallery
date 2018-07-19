@@ -7,34 +7,54 @@ interface IProps {
 
 interface IState {
     loaded: boolean
-    image: HTMLImageElement
 }
 
-class ResponsiveImage extends React.Component<IProps, IState> {
 
+class ResponsiveImage extends React.Component<IProps, IState> {
+    
     constructor(props: IProps) {
         super(props)
         this.state = {
             loaded: false,
-            image: new HTMLImageElement
         }
     }
 
+    componentDidMount() {
+        this.startImageLoad()
+    }
+
+    componentDidUpdate(prevProps: IProps) {
+        if (this.props.imageSrc === prevProps.imageSrc) {
+            return
+        }
+        this.startImageLoad()
+    }
+
     render() {
-        
         return (
-            <div className="responsive-img" style={this.getImageStyle()} />
+            <div className="responsive-img" style={this.getImageStyle()}>
+                {!this.state.loaded && <div className="responsive-image-loading" />}
+            </div>
         );
     }
 
     private getImageStyle = () => {
         return {
-            backgroundImage: `url(${this.props.imageSrc})`,
+            backgroundImage: this.state.loaded ? `url(${this.props.imageSrc})` : "",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: this.props.type ? this.props.type : "contain",
+            position: "relative" as "relative",
             height: "100%",
             width: "100%"
+        }
+    }
+
+    private startImageLoad = () => {
+        const image = new Image()
+        image.src = this.props.imageSrc
+        image.onload = (e: Event) => {
+            this.setState({...this.state, loaded: true})
         }
     }
 }

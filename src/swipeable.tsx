@@ -21,6 +21,7 @@ class Swipable extends React.Component < IProps > {
   render() {
     return ( 
       <div
+        className="swipable"
         style={{touchAction:"none"}}
         onTouchStart={this.handleStart}
         onTouchEnd={this.handleEnd}

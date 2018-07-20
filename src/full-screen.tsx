@@ -15,7 +15,7 @@ class FullScreen extends React.Component <{}, IState> {
 
   render() {
     return (
-      <div style={{maxHeight: this.state.height, overflow: "hidden"}}>
+      <div style={{height: this.state.height, maxHeight: this.state.height, overflow: "hidden"}}>
         {this.props.children}
       </div>
     )

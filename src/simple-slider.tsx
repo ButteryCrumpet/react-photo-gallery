@@ -36,7 +36,7 @@ class SimpleSlider extends React.Component<IProps, IState> {
     }
 
     public componentWillReceiveProps() {
-        this.setState({...this.setState, scrolled: 0})
+        this.setState({...this.state, scrolled: 0}) 
     }
 
     public componentDidMount() {
@@ -74,7 +74,7 @@ class SimpleSlider extends React.Component<IProps, IState> {
     private updateWidths = () => {
         const { widths, fullWidth } = this.getWidths()
         const windowWidth = this.getWindowWidth()
-        this.setState({ widths: widths, windowWidth: windowWidth, fullWidth: fullWidth })
+        this.setState({ widths: widths, windowWidth: windowWidth, fullWidth: fullWidth, scrolled: 0})
     }
 
     private getWidths = () => {

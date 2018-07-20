@@ -1,10 +1,10 @@
 - ss -> scrollable DONE
-- Loading for main image 
+- Loading for main image DONE
 - Category navigation
 - meta tags
--? routing
+-? routing DONEish
 - social buttons
 - about page
 - keyboard navigation
-- STYLING
+- STYLING PROGRESS
 - BACKEND

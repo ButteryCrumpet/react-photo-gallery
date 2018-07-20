@@ -6,6 +6,7 @@ html {
   overflow: hidden;
   margin: 0;
   padding: 0;
+  background-color: #ffffff
 }
 
 .App {
@@ -13,42 +14,111 @@ html {
 }
 
 .header {
-  height: 8vh;
+  height: 10%;
   padding: 8px;
+  color: rgb(151, 228, 209);
+  border-bottom: 1px solid rgb(151, 228, 209);
+  display: flex;
+  justify-content: space-evenly
 }
 
-.header > h4 {
+.header > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header h4 {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin: 0;
 }
 
-.content {
+/* Image Gallery styles */
+
+.ig-prev,
+.ig-next {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  right: 1rem;
+  font-size: 2rem;
+  color: rgb(151, 228, 209);
+}
+
+.ig-prev { left: 1rem; }
+.ig-next { right: 1rem; }
+
+.ig-gallery {
+  height: 88%;
+}
+
+.ig-gallery > .swipable {
+  height: 100%;
+}
+
+.ig-main {
   display: flex;
   justify-content: center;
-  height: 90vh;
+  height: 100%;
+  position: relative;
 }
 
-.pp-thumbnail {
-  margin-left: 2px;
-  cursor: pointer;
+.ig-thumbnail {
+  width: 4rem;
+  height: 4rem;
+  margin-left: 4px;
 }
+
+.ig-dropdown {
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  background-color: #ffffff
+}
+
+.ig-dropdown-control {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  color: rgb(151, 228, 209);
+}
+
+/* Image Gallery styles end */
 
 .ss-window {
-  background-color: white;
+  background-color: #ffffff;
+  width: 100%;
 }
 
 .ss-active > div {
-  border: 5px solid rgb(165, 218, 240)
+  border: 3px solid rgb(151, 228, 209)
+}
+
+.ss-slide .responsive-image-loading {
+  width: 10%;
+  height: 10%;
+}
+.ss-slide .responsive-image-loading::after {
+  width: 7%;
+  height: 7%;
+}
+
+.ig-main-image .responsive-image-loading {
+  width: 4rem;
+  height: 4rem;
+}
+.ig-main-image .responsive-image-loading::after {
+  width: 2.8rem;
+  height: 2.8rem;
 }
 
 .responsive-image-loading {
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  width: 4rem;
-  height: 4rem;
   border: 4px solid lightgrey;
-  border-left: 4px solid #399b7c;
+  border-left: 4px solid rgb(151, 228, 209);
   border-radius: 50%;
   -webkit-animation: pp-spin 1s linear infinite;
   -o-animation: pp-spin 1s linear infinite;
@@ -58,10 +128,8 @@ html {
 
 .responsive-image-loading::after {
   content: " ";
-  width: 2.8rem;
-  height: 2.8rem;
   border: 4px solid lightgrey;
-  border-right: 4px solid #399b7c;
+  border-right: 4px solid rgb(151, 228, 209);
   border-radius: 50%;
   -webkit-animation: pp-after-spin 0.5s linear reverse infinite;
   -o-animation: pp-after-spin 0.5s linear reverse infinite;

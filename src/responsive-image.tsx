@@ -32,7 +32,7 @@ class ResponsiveImage extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div className="responsive-img" style={this.getImageStyle()}>
+            <div className={`responsive-img ${this.state.loaded ? "loaded" : "loading"}`} style={this.getImageStyle()}>
                 {!this.state.loaded && <div className="responsive-image-loading" />}
             </div>
         );

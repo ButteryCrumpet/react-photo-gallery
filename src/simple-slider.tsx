@@ -99,22 +99,13 @@ class SimpleSlider extends React.Component<IProps, IState> {
     }
 
     private getDistanceToActive = () => {
-        if (!this.state) {
-            return 0
-        }
         const active = this.props.activeItem
         const distanceToActive = this.state.widths
             .filter((_v, i) => i <= active)
             .reduce((p, c, i) => i === active ? p + c/2 : p + c, 0)
-
         const halfWindowWidth = this.state.windowWidth / 2
-        if (distanceToActive < halfWindowWidth) {
-            return 0
-        }
-        if (distanceToActive > (this.state.fullWidth - halfWindowWidth)) {
-            return - (this.state.fullWidth - this.state.windowWidth)
-        }
-        return - (distanceToActive - halfWindowWidth)
+        
+        return distanceToActive - halfWindowWidth
     }
 
     private disableAnimation = () => {
@@ -154,17 +145,16 @@ class SimpleSlider extends React.Component<IProps, IState> {
 
     private toTranslate = () => {
         const distanceToActive = this.getDistanceToActive()
-        const toScroll = distanceToActive + this.state.scrolled
-        const rightLimit = - (this.state.fullWidth - this.state.windowWidth)
+        const toScroll = distanceToActive - this.state.scrolled
+        const rightLimit = this.state.fullWidth - this.state.windowWidth
         const leftLimit = 0
-        if (toScroll > leftLimit) {
+        if (toScroll < leftLimit) {
             return leftLimit
         }
-        if (toScroll < rightLimit) {
-            return rightLimit 
+        if (toScroll > rightLimit) {
+            return -rightLimit 
         }
-        return toScroll
-
+        return -toScroll
     }
 }
 

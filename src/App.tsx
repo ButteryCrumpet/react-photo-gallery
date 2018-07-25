@@ -5,7 +5,7 @@ import FullScreen from './full-screen';
 
 class App extends React.Component<{},{}> {
     private images = {
-        cat1: [
+        people: [
             "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
             "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
             "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
@@ -31,11 +31,11 @@ class App extends React.Component<{},{}> {
             "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
             "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
         ],
-        cat2: [
+        nature: [
             "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
             "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
-            "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
             "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
+            "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
             "https://images.unsplash.com/photo-1530050860160-1f4c7b2ed417",
             "https://images.unsplash.com/photo-1527381752380-a1d3cff8808f",
             "https://images.unsplash.com/photo-1528986852326-ce827593c53a",
@@ -48,9 +48,8 @@ class App extends React.Component<{},{}> {
 
     private makeImageGallery = (props: RouteComponentProps<any>) => {
         const active = props.match.params.id ? parseInt(props.match.params.id) : 0
-        const category = props.match.params.cat ? props.match.params.cat : "cat1"
-        console.log(category)
-        const change = (active: number) => props.history.push(`${active}`)
+        const category = props.match.params.cat ? props.match.params.cat : "people"
+        const change = (active: number) => props.history.push(`/${category}/${active}`)
         return <ImageGallery active={active} images={this.images[category]} onChange={change} />
     }
     // state injector for gallery?
@@ -63,13 +62,17 @@ class App extends React.Component<{},{}> {
                 <FullScreen>
                     <header className="header">
                         <h4>Photography</h4>
+                        <div className="nav">
+                        <h4>|</h4>
                         {Object.keys(this.images).map((key, i) =>{
-                            return <Link key="{i}" to={`/${key}/0`}>
-                                <h4 >{key}</h4>
+                            return <Link key={i} to={`/${key}/0`}>
+                                <h4 className="nav-link">{key.charAt(0).toLocaleUpperCase() + key.substr(1)}</h4>
                             </Link>
                         })}
-                    </header>  
-                    <Route path="/:cat?/:id?" render={this.makeImageGallery} />
+                        </div>
+                    </header>
+                    <Route exact={true} path="/" render={this.makeImageGallery} />
+                    <Route path="/:cat/:id" render={this.makeImageGallery} />
                 </FullScreen>
             </HashRouter>
         )

@@ -9,27 +9,30 @@ html {
   background-color: #ffffff
 }
 
-.App {
-  overflow: hidden;
-}
-
 .header {
-  height: 10%;
+  height: 60px;
   padding: 8px;
   color: rgb(151, 228, 209);
   border-bottom: 1px solid rgb(151, 228, 209);
   display: flex;
-  justify-content: space-evenly
+  align-items: center;
 }
 
-.header > a {
+.header .nav > a {
   text-decoration: none;
   color: inherit;
+}
+
+.header .nav .nav-link {
+  text-decoration: underline;
 }
 
 .header h4 {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin: 0;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 1em;
 }
 
 /* Image Gallery styles */
@@ -48,7 +51,7 @@ html {
 .ig-next { right: 1rem; }
 
 .ig-gallery {
-  height: 88%;
+  height: calc(100% - 60px);
 }
 
 .ig-gallery > .swipable {
@@ -84,6 +87,48 @@ html {
   color: rgb(151, 228, 209);
 }
 
+.ig-main > .details {
+  position: absolute;
+  top: 19px;
+  min-width: 50%;
+}
+
+.ig-main > .details {
+  background-color: rgba(151, 228, 209, 0.8);
+  color: white;
+  font-size: 1em;
+  padding: 20px;
+  transition: transform 0.2s ease-out;
+  right: 0px;
+}
+
+.ig-main > .details.inactive {
+  transform: translateX(100%);
+}
+
+.ig-main > .details > div {
+  display: inline-block;
+}
+
+.ig-main > .details-toggle {
+  position: absolute;
+  right: 0px;
+  top: 19px;
+  cursor: pointer;
+  color: rgb(151, 228, 209);
+  font-size: 3rem;
+  width: 50px;
+  text-align: center;
+}
+
+.ig-main > .details-toggle.active {
+  color: white;
+}
+
+.ig-main > .details-toggle.inactive {
+  color: rgb(151, 228, 209);
+}
+
 /* Image Gallery styles end */
 
 .ss-window {
@@ -102,6 +147,12 @@ html {
 .ss-slide .responsive-image-loading::after {
   width: 7%;
   height: 7%;
+}
+
+.ig-main-image .fader {
+  position: absolute;
+  top: 20px;
+  z-index: 1000;
 }
 
 .ig-main-image .responsive-image-loading {

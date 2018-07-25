@@ -7,6 +7,7 @@ import Swipable from "./swipeable"
 
 interface IState {
   menuActive: boolean
+  detailsActive: boolean
 }
 
 interface IProps {
@@ -20,8 +21,10 @@ class ImageGallery extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      menuActive: false
+      menuActive: false,
+      detailsActive: false
     }
+    document.addEventListener("keypress", this.handleKeyPress)
   }
   
   public render() {
@@ -40,7 +43,7 @@ class ImageGallery extends React.Component<IProps, IState> {
           </div>
         </div>
 
-        <Swipable swipeL={this.next} swipeR={this.prev}>
+        <Swipable swipeL={this.next} swipeR={this.prev} >
           <div className="ig-main">
             <div className="ig-main-image" style={{height: "100%", width: "95%"}}>
               <ResponsiveImage imageSrc={this.props.images[this.props.active]}/>
@@ -51,6 +54,14 @@ class ImageGallery extends React.Component<IProps, IState> {
             <div onClick={this.next} className="ig-next">
               &#8811;
             </div>
+            <div className={`details ${this.state.detailsActive ? "active" : "inactive"}`}>
+                <p>Title</p>
+                <p>Some short description</p>
+                <small>2018/05/12</small>
+            </div>
+            <div onClick={this.toggleDetails} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
+                {this.state.detailsActive ? "x" : "i"}
+            </div>
           </div>
         </Swipable>
       </div>
@@ -58,7 +69,6 @@ class ImageGallery extends React.Component<IProps, IState> {
   }
 
   private renderImageListItem = (src: string, index: number) => {
-
     return (
       <div className="ig-thumbnail" onClick={this.bufferedSetActive(index)} key={index} >
           <ResponsiveImage imageSrc={src} type="cover"/>
@@ -89,6 +99,26 @@ class ImageGallery extends React.Component<IProps, IState> {
 
   private toggleMenu = () => {
     this.setState({...this.state, menuActive: !this.state.menuActive})
+  }
+
+  private toggleDetails = () => {
+    this.setState({...this.state, detailsActive: !this.state.detailsActive})
+  }
+
+  private handleKeyPress = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowRight":
+        this.next()
+        break
+      case "ArrowLeft":
+        this.prev()
+        break
+      case " ":
+        this.toggleMenu()
+        break
+      default:
+        break
+    }
   }
 }
 

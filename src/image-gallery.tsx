@@ -24,7 +24,7 @@ class ImageGallery extends React.Component<IProps, IState> {
       menuActive: false,
       detailsActive: false
     }
-    document.addEventListener("keypress", this.handleKeyPress)
+    document.addEventListener("keydown", this.handleKeyPress)
   }
   
   public render() {
@@ -60,7 +60,7 @@ class ImageGallery extends React.Component<IProps, IState> {
                 <small>2018/05/12</small>
             </div>
             <div onClick={this.toggleDetails} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
-                {this.state.detailsActive ? "x" : "i"}
+                {this.state.detailsActive ? "\u2716" : "𝒊"}
             </div>
           </div>
         </Swipable>

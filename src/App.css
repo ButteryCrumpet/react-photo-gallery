@@ -75,7 +75,6 @@ html {
   z-index: 1000;
   position: absolute;
   width: 100%;
-  background-color: #ffffff
 }
 
 .ig-dropdown-control {
@@ -85,6 +84,11 @@ html {
   font-weight: bold;
   font-size: 1em;
   color: rgb(151, 228, 209);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.ig-dropdown-control:hover {
+  background-color: rgba(151, 228, 209, 0.5);
+  color: white;
 }
 
 .ig-main > .details {
@@ -115,10 +119,18 @@ html {
   right: 0px;
   top: 19px;
   cursor: pointer;
-  color: rgb(151, 228, 209);
+  text-shadow:
+  -1px -1px 0 rgb(151, 228, 209),  
+   1px -1px 0 rgb(151, 228, 209),
+   -1px 1px 0 rgb(151, 228, 209),
+    1px 1px 0 rgb(151, 228, 209);
   font-size: 3rem;
   width: 50px;
   text-align: center;
+}
+
+.ig-main > .details-toggle.inactive:hover {
+  color: rgba(151, 228, 209, 0.2);
 }
 
 .ig-main > .details-toggle.active {
@@ -126,7 +138,7 @@ html {
 }
 
 .ig-main > .details-toggle.inactive {
-  color: rgb(151, 228, 209);
+  color: white;
 }
 
 /* Image Gallery styles end */

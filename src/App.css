@@ -6,40 +6,166 @@ html {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background-color: #ffffff
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+  margin: 0;
+  padding: 0;
 }
 
-.header {
+header {
+  z-index: 800;
+  color: rgb(151, 228, 209);
+  position: relative;
   height: 60px;
   padding: 8px;
   color: rgb(151, 228, 209);
   border-bottom: 1px solid rgb(151, 228, 209);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.header .nav > a {
+header > .logo h4 {
+  margin: 0;
+  margin-left: 0.5em;
+}
+
+header.inactive > nav {
+  transform: translateY(-5%);
+  visibility: hidden;
+  opacity: 0;
+}
+
+header.active > nav {
+  visibility: visible;
+  opacity: 1;
+}
+
+header > nav {
+  background-color: white;
+  transition: all 0.2s ease-out;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+  padding-top: 40px;
+}
+
+header nav > a {
   text-decoration: none;
   color: inherit;
 }
 
-.header .nav .nav-link {
+header nav .nav-link { 
+  text-align: center;
+}
+
+.nav-link.active {
   text-decoration: underline;
 }
 
-.header h4 {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  margin: 0;
-  vertical-align: middle;
-  display: inline-block;
-  margin-left: 1em;
+.menuToggle {
+  position: relative;
+  right: 0px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
 }
+
+header .block {
+  display: flex;
+  align-items: center;
+}
+
+header .block > h4 {
+  font-size: 2em;
+  margin: 0;
+  margin-left: 0.75em;
+}
+
+.details-toggle {
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+  header {
+    justify-content: flex-start;
+  }
+
+  header > .logo {
+    border-right: 1px solid rgb(151, 228, 209);
+    padding-right: 1em;
+  }
+
+  header > nav {
+    position: relative;
+    height: auto;
+    width: auto;
+    padding: 0;
+  }
+
+  header h4 {
+    margin: 0;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 1em;
+  }
+
+  header.inactive > nav {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  header.active > nav {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .menuToggle {
+    display: none!important;
+  }
+
+  .details-toggle {
+    position: fixed;
+    right: 0px;
+    top: 80px;
+    cursor: pointer;
+    text-shadow:
+    -1px -1px 0 rgb(151, 228, 209),  
+     1px -1px 0 rgb(151, 228, 209),
+     -1px 1px 0 rgb(151, 228, 209),
+      1px 1px 0 rgb(151, 228, 209);
+    font-size: 2em;
+    width: 50px;
+    text-align: center;
+  }
+
+  .details-toggle.inactive:hover {
+    text-shadow:
+    -2px -2px 0 rgb(151, 228, 209),  
+     2px -2px 0 rgb(151, 228, 209),
+     -2px 2px 0 rgb(151, 228, 209),
+      2px 2px 0 rgb(151, 228, 209);
+  }
+  
+  .details-toggle.active {
+    color: white;
+  }
+  
+  .details-toggle.inactive {
+    color: white;
+  }
+}
+
 
 /* Image Gallery styles */
 
 .ig-prev,
 .ig-next {
-  position: absolute;
+  position: fixed;
   top: 50%;
   cursor: pointer;
   right: 1rem;
@@ -63,6 +189,7 @@ html {
   justify-content: center;
   height: 100%;
   position: relative;
+  padding-top: 5px;
 }
 
 .ig-thumbnail {
@@ -72,9 +199,10 @@ html {
 }
 
 .ig-dropdown {
-  z-index: 1000;
+  z-index: 500;
   position: absolute;
   width: 100%;
+  font-size: 1.5em;
 }
 
 .ig-dropdown-control {
@@ -84,11 +212,6 @@ html {
   font-weight: bold;
   font-size: 1em;
   color: rgb(151, 228, 209);
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.ig-dropdown-control:hover {
-  background-color: rgba(151, 228, 209, 0.5);
-  color: white;
 }
 
 .ig-main > .details {
@@ -114,33 +237,6 @@ html {
   display: inline-block;
 }
 
-.ig-main > .details-toggle {
-  position: absolute;
-  right: 0px;
-  top: 19px;
-  cursor: pointer;
-  text-shadow:
-  -1px -1px 0 rgb(151, 228, 209),  
-   1px -1px 0 rgb(151, 228, 209),
-   -1px 1px 0 rgb(151, 228, 209),
-    1px 1px 0 rgb(151, 228, 209);
-  font-size: 3rem;
-  width: 50px;
-  text-align: center;
-}
-
-.ig-main > .details-toggle.inactive:hover {
-  color: rgba(151, 228, 209, 0.2);
-}
-
-.ig-main > .details-toggle.active {
-  color: white;
-}
-
-.ig-main > .details-toggle.inactive {
-  color: white;
-}
-
 /* Image Gallery styles end */
 
 .ss-window {
@@ -159,12 +255,6 @@ html {
 .ss-slide .responsive-image-loading::after {
   width: 7%;
   height: 7%;
-}
-
-.ig-main-image .fader {
-  position: absolute;
-  top: 20px;
-  z-index: 1000;
 }
 
 .ig-main-image .responsive-image-loading {

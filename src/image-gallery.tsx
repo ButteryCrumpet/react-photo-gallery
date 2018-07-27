@@ -1,18 +1,18 @@
 import * as React from 'react'
-import './App.css'
 import DropDown from "./drop-down"
 import ResponsiveImage from "./responsive-image"
 import SimpleSlider from "./simple-slider"
 import Swipable from "./swipeable"
+import { Image } from "./images"
 
 interface IState {
   menuActive: boolean
-  detailsActive: boolean
 }
 
 interface IProps {
   active: number
-  images: string[]
+  images: Image[]
+  detailsActive: boolean
   onChange: (active: number) => void
 }
 
@@ -22,12 +22,12 @@ class ImageGallery extends React.Component<IProps, IState> {
     super(props)
     this.state = {
       menuActive: false,
-      detailsActive: false
     }
     document.addEventListener("keydown", this.handleKeyPress)
   }
   
   public render() {
+    const image = this.props.images[this.props.active]
     return (
       <div className="ig-gallery">
         <div className="ig-dropdown" >
@@ -46,7 +46,7 @@ class ImageGallery extends React.Component<IProps, IState> {
         <Swipable swipeL={this.next} swipeR={this.prev} >
           <div className="ig-main">
             <div className="ig-main-image" style={{height: "100%", width: "95%"}}>
-              <ResponsiveImage imageSrc={this.props.images[this.props.active]}/>
+              <ResponsiveImage imageSrc={image.src}/>
             </div>
             <div onClick={this.prev} className="ig-prev">
               &#8810;
@@ -54,13 +54,10 @@ class ImageGallery extends React.Component<IProps, IState> {
             <div onClick={this.next} className="ig-next">
               &#8811;
             </div>
-            <div className={`details ${this.state.detailsActive ? "active" : "inactive"}`}>
-                <p>Title</p>
-                <p>Some short description</p>
-                <small>2018/05/12</small>
-            </div>
-            <div onClick={this.toggleDetails} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
-                {this.state.detailsActive ? "\u2716" : "𝒊"}
+            <div className={`details ${this.props.detailsActive ? "active" : "inactive"}`}>
+                <p>{image.title}</p>
+                <p>{image.description}</p>
+                <small>{image.date}</small>
             </div>
           </div>
         </Swipable>
@@ -68,10 +65,10 @@ class ImageGallery extends React.Component<IProps, IState> {
     );
   }
 
-  private renderImageListItem = (src: string, index: number) => {
+  private renderImageListItem = (image: Image, index: number) => {
     return (
       <div className="ig-thumbnail" onClick={this.bufferedSetActive(index)} key={index} >
-          <ResponsiveImage imageSrc={src} type="cover"/>
+          <ResponsiveImage imageSrc={image.src} type="cover"/>
       </div>
     )
   }
@@ -99,10 +96,6 @@ class ImageGallery extends React.Component<IProps, IState> {
 
   private toggleMenu = () => {
     this.setState({...this.state, menuActive: !this.state.menuActive})
-  }
-
-  private toggleDetails = () => {
-    this.setState({...this.state, detailsActive: !this.state.detailsActive})
   }
 
   private handleKeyPress = (e: KeyboardEvent) => {

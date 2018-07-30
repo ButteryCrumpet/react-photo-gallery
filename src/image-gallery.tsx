@@ -55,7 +55,7 @@ class ImageGallery extends React.Component<IProps, IState> {
               &#8811;
             </div>
             <div className={`details ${this.props.detailsActive ? "active" : "inactive"}`}>
-                <p>{image.title}</p>
+                <h4>{image.title}</h4>
                 <p>{image.description}</p>
                 <small>{image.date}</small>
             </div>

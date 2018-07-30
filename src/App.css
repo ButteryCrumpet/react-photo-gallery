@@ -131,7 +131,7 @@ header .block > h4 {
   .details-toggle {
     position: fixed;
     right: 0px;
-    top: 80px;
+    top: 89px;
     cursor: pointer;
     text-shadow:
     -1px -1px 0 rgb(151, 228, 209),  
@@ -144,11 +144,8 @@ header .block > h4 {
   }
 
   .details-toggle.inactive:hover {
-    text-shadow:
-    -2px -2px 0 rgb(151, 228, 209),  
-     2px -2px 0 rgb(151, 228, 209),
-     -2px 2px 0 rgb(151, 228, 209),
-      2px 2px 0 rgb(151, 228, 209);
+    text-shadow: none;
+    color: rgb(151, 228, 209);
   }
   
   .details-toggle.active {
@@ -202,7 +199,6 @@ header .block > h4 {
   z-index: 500;
   position: absolute;
   width: 100%;
-  font-size: 1.5em;
 }
 
 .ig-dropdown-control {
@@ -210,17 +206,14 @@ header .block > h4 {
   justify-content: center;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 1.5em;
   color: rgb(151, 228, 209);
 }
 
 .ig-main > .details {
   position: absolute;
-  top: 19px;
+  top: 29px;
   min-width: 50%;
-}
-
-.ig-main > .details {
   background-color: rgba(151, 228, 209, 0.8);
   color: white;
   font-size: 1em;
@@ -237,6 +230,12 @@ header .block > h4 {
   display: inline-block;
 }
 
+.ig-main > .details > h4 {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 0;
+}
+
 /* Image Gallery styles end */
 
 .ss-window {
@@ -246,6 +245,10 @@ header .block > h4 {
 
 .ss-active > div {
   border: 3px solid rgb(151, 228, 209)
+}
+
+.ss-slide {
+  cursor: pointer;
 }
 
 .ss-slide .responsive-image-loading {
@@ -262,16 +265,16 @@ header .block > h4 {
   height: 4rem;
 }
 .ig-main-image .responsive-image-loading::after {
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 
 .responsive-image-loading {
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  border: 4px solid lightgrey;
-  border-left: 4px solid rgb(151, 228, 209);
+  border: 6px solid lightgrey;
+  border-left: 6px solid rgb(151, 228, 209);
   border-radius: 50%;
   -webkit-animation: pp-spin 1s linear infinite;
   -o-animation: pp-spin 1s linear infinite;
@@ -281,8 +284,8 @@ header .block > h4 {
 
 .responsive-image-loading::after {
   content: " ";
-  border: 4px solid lightgrey;
-  border-right: 4px solid rgb(151, 228, 209);
+  border: 6px solid lightgrey;
+  border-right: 6px solid rgb(151, 228, 209);
   border-radius: 50%;
   -webkit-animation: pp-after-spin 0.5s linear reverse infinite;
   -o-animation: pp-after-spin 0.5s linear reverse infinite;

@@ -27,12 +27,16 @@ class ResponsiveImage extends React.Component<IProps, IState> {
         if (this.props.imageSrc === prevProps.imageSrc) {
             return
         }
+        this.setState({...this.state, loaded: false});
         this.startImageLoad()
     }
 
     render() {
         return (
-            <div className={`responsive-img ${this.state.loaded ? "loaded" : "loading"}`} style={this.getImageStyle()}>
+            <div
+                className={`responsive-img ${this.state.loaded ? "loaded" : "loading"}`}
+                style={this.getImageStyle()}
+            >
                 {!this.state.loaded && <div className="responsive-image-loading" />}
             </div>
         );
@@ -54,7 +58,9 @@ class ResponsiveImage extends React.Component<IProps, IState> {
         const image = new Image()
         image.src = this.props.imageSrc
         image.onload = (e: Event) => {
-            this.setState({...this.state, loaded: true})
+            setTimeout(() => {
+                this.setState({...this.state, loaded: true})
+            }, 200);
         }
     }
 }

@@ -6,7 +6,7 @@ interface IProps {
 }
 
 interface IState {
-    loaded: boolean
+    loading: boolean;
 }
 
 
@@ -15,7 +15,7 @@ class ResponsiveImage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props)
         this.state = {
-            loaded: false,
+            loading: true,
         }
     }
 
@@ -27,24 +27,24 @@ class ResponsiveImage extends React.Component<IProps, IState> {
         if (this.props.imageSrc === prevProps.imageSrc) {
             return
         }
-        this.setState({...this.state, loaded: false});
         this.startImageLoad()
     }
 
     render() {
         return (
             <div
-                className={`responsive-img ${this.state.loaded ? "loaded" : "loading"}`}
+                className={`responsive-image ${this.state.loading ? "loading" : ""}`}
                 style={this.getImageStyle()}
             >
-                {!this.state.loaded && <div className="responsive-image-loading" />}
+                {this.state.loading && <div className="responsive-image-loading" />}
+                {this.props.children}
             </div>
         );
     }
 
     private getImageStyle = () => {
         return {
-            backgroundImage: this.state.loaded ? `url(${this.props.imageSrc})` : "",
+            backgroundImage: this.state.loading ? "" : `url(${this.props.imageSrc})`,
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: this.props.type ? this.props.type : "contain",
@@ -57,10 +57,11 @@ class ResponsiveImage extends React.Component<IProps, IState> {
     private startImageLoad = () => {
         const image = new Image()
         image.src = this.props.imageSrc
-        image.onload = (e: Event) => {
-            setTimeout(() => {
-                this.setState({...this.state, loaded: true})
-            }, 200);
+        if (!image.complete) {
+            this.setState({...this.state, loading: true})
+            image.onload = (e: Event) => {
+                this.setState({...this.state, loading: false})
+            }
         }
     }
 }

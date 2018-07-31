@@ -165,7 +165,6 @@ header .block > h4 {
   position: fixed;
   top: 50%;
   cursor: pointer;
-  right: 1rem;
   font-size: 2rem;
   color: rgb(151, 228, 209);
 }
@@ -260,11 +259,12 @@ header .block > h4 {
   height: 7%;
 }
 
-.ig-main-image .responsive-image-loading {
+.ig-main .responsive-image-loading {
   width: 4rem;
   height: 4rem;
 }
-.ig-main-image .responsive-image-loading::after {
+
+.ig-main .responsive-image-loading::after {
   width: 2.3rem;
   height: 2.3rem;
 }

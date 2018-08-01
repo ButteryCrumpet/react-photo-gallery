@@ -2,15 +2,18 @@ import * as React from 'react'
 import './App.css'
 import { RouteComponentProps, Link } from "react-router-dom"
 import ImageGallery from "./image-gallery"
-import FullScreen from './full-screen';
-import { getEmbeddedImages } from "./images"
+import FullScreen from './components/full-screen';
+import { getEmbeddedImages, ImageInfo } from "./images"
+
+type IProps = RouteComponentProps<any>
 
 interface IState {
     menuActive: boolean
     detailsActive: boolean
+    dropDownActive: boolean
 } 
 
-class App extends React.Component<RouteComponentProps<any>,IState> {
+class App extends React.Component<IProps,IState> {
     private pageTitle = "Emil Wittern"
     private images = getEmbeddedImages()
         
@@ -19,11 +22,19 @@ class App extends React.Component<RouteComponentProps<any>,IState> {
         super(props)
         this.state = {
             menuActive: false,
-            detailsActive: false
+            detailsActive: false,
+            dropDownActive: false
         }
     }
 
-    render() {
+    public componentDidUpdate(prev: IProps) {
+        if (prev.location.pathname === this.props.location.pathname) {
+            return
+        }
+        this.setState({...this.state, menuActive: false})
+    }
+
+    public render() {
         const category = this.getCategory()
         const activeIndex = this.getActiveIndex(category)
         const next = this.buildNext(category)
@@ -44,6 +55,9 @@ class App extends React.Component<RouteComponentProps<any>,IState> {
                     })}
                     </nav>
                     <div className="block">
+                        <h4>
+                            <a href={this.images[category][activeIndex].src}>Big</a>
+                        </h4>
                         <h4 onClick={this.detailsToggle} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
                             {this.state.detailsActive ? "\u00D7" : "𝓲"}
                         </h4>
@@ -53,10 +67,12 @@ class App extends React.Component<RouteComponentProps<any>,IState> {
                     </div>
                 </header>
                 <ImageGallery
-                    detailsActive={this.state.detailsActive}
                     active={activeIndex}
                     images={this.images[category]}
-                    onChange={next} />
+                    detailsActive={this.state.detailsActive}
+                    dropdownActive={this.state.dropDownActive}
+                    onChange={next}
+                    toggleDropdown={this.dropDownToggle}/>
             </FullScreen>
         )
     }
@@ -76,25 +92,29 @@ class App extends React.Component<RouteComponentProps<any>,IState> {
         const active = this.props.match.params.id
             ? parseInt(this.props.match.params.id)
             : 0
-        if (active < 1) {
-            return 0
-        }
-        if (active > this.images[category].length) {
-            return this.images[category].length - 1
-        }
-        return active - 1
+        return this.images[category].reduce((acc: number, curr: ImageInfo, i) => {
+            if (curr.id === active) {
+                return i
+            }
+            return acc
+        }, 0)
     }
 
     private buildNext = (category: string) => (newActiveIndex: number) => {
-        this.props.history.push(`/${category}/${newActiveIndex+1}`)
+        const next = this.images[category][newActiveIndex].id
+        this.props.history.push(`/${category}/${next}`)
     }
 
-    private menuToggle = () => {
-        this.setState({...this.state, menuActive: !this.state.menuActive})
+    private dropDownToggle = () => {
+        this.setState({...this.state, dropDownActive: !this.state.dropDownActive})
     }
 
     private detailsToggle = () => {
         this.setState({...this.state, detailsActive: !this.state.detailsActive})
+    }
+
+    private menuToggle = () => {
+        this.setState({...this.state, menuActive: !this.state.menuActive})
     }
 }
 

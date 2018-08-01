@@ -1,118 +1,76 @@
 import * as React from 'react'
-import DropDown from "./drop-down"
-import ResponsiveImage from "./responsive-image"
-import SimpleSlider from "./simple-slider"
-import Swipable from "./swipeable"
-import { Image } from "./images"
 
-interface IState {
-  menuActive: boolean
-}
+import DropDown from "./components/drop-down"
+import ResponsiveImage from "./components/responsive-image"
+import SimpleSlider from "./components/simple-slider"
+import Swipable from "./components/swipeable"
+import Carousel from './components/carousel';
+
+import { ImageInfo } from "./images"
 
 interface IProps {
   active: number
-  images: Image[]
+  images: ImageInfo[]
   detailsActive: boolean
-  onChange: (active: number) => void
+  dropdownActive: boolean
+  onChange: (index: number) => any
+  toggleDropdown: () => any
 }
 
-class ImageGallery extends React.Component<IProps, IState> {
+const ImageGallery: React.SFC<IProps> = (props) => {
 
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      menuActive: false,
-    }
-    document.addEventListener("keydown", this.handleKeyPress)
-  }
-  
-  public render() {
-    const image = this.props.images[this.props.active]
-    return (
-      <div className="ig-gallery">
-        <div className="ig-dropdown" >
-          <DropDown active={this.state.menuActive}>
-            <SimpleSlider activeItem={this.props.active}>
-              {this.props.images.map(this.renderImageListItem)}
-            </SimpleSlider>
-          </DropDown>
-          <div className="ig-dropdown-control" onClick={this.toggleMenu}>
-            <div>
-              {this.state.menuActive ? "\u2227" : "\u2228"}
-            </div>
+  const image = props.images[props.active]
+  const bounded = bounds(props.images.length - 1)
+  const next = () => props.onChange(bounded(props.active + 1))
+  const prev = () => props.onChange(bounded(props.active - 1))
+  const setActive = (i: number) => () => props.onChange(bounded(i))
+  return (
+    <div className="ig-gallery">
+      <div className="ig-dropdown" >
+        <DropDown active={props.dropdownActive}>
+          <SimpleSlider activeItem={props.active}>
+            {props.images.map(renderImageListItem(setActive))}
+          </SimpleSlider>
+        </DropDown>
+        <div className="ig-dropdown-control" onClick={props.toggleDropdown}>
+          <div>
+            {props.dropdownActive ? "\u2227" : "\u2228"}
           </div>
         </div>
+      </div>
 
-        <Swipable swipeL={this.next} swipeR={this.prev} >
-          <div className="ig-main">
-            <div className="ig-main-image" style={{height: "100%", width: "95%"}}>
-              <ResponsiveImage imageSrc={image.src}/>
-            </div>
-            <div onClick={this.prev} className="ig-prev">
-              &#8810;
-            </div>
-            <div onClick={this.next} className="ig-next">
-              &#8811;
-            </div>
-            <div className={`details ${this.props.detailsActive ? "active" : "inactive"}`}>
-                <h4>{image.title}</h4>
-                <p>{image.description}</p>
-                <small>{image.date}</small>
-            </div>
+      <Swipable swipeL={next} swipeR={prev}>
+        <div className="ig-main"> 
+          <Carousel src={image.src} />
+          <div onClick={prev} className="ig-prev">&#8810;</div>
+          <div onClick={next} className="ig-next">&#8811;</div>
+          <div className={`details ${props.detailsActive ? "active" : "inactive"}`}>
+              <h4>{image.title}</h4>
+              <p>{image.description}</p>
+              <small>{image.date}</small>
           </div>
-        </Swipable>
-      </div>
-    );
-  }
+        </div>
+      </Swipable>
+    </div>
+  );
+}
 
-  private renderImageListItem = (image: Image, index: number) => {
-    return (
-      <div className="ig-thumbnail" onClick={this.bufferedSetActive(index)} key={index} >
-          <ResponsiveImage imageSrc={image.src} type="cover"/>
-      </div>
-    )
-  }
+const renderImageListItem = (func: (i: number) => any) => (image: ImageInfo, index: number) => {
+  return (
+    <div className="ig-thumbnail" onClick={func(index)} key={index} >
+        <ResponsiveImage imageSrc={image.thumbnail} type="cover"/>
+    </div>
+  )
+}
 
-  private bufferedSetActive = (i: number) => () => {
-    this.setActive(i)
+const bounds = (max: number) => (i: number) => {
+  if (i < 0) {
+    return max
   }
-
-  private setActive = (i: number) => {
-    const next = i < 0
-      ? this.props.images.length - 1
-      : i > this.props.images.length - 1
-          ? 0
-          : i
-    this.props.onChange(next)
+  if (i > max) {
+    return 0
   }
-
-  private next = () => {
-    this.setActive(this.props.active + 1)
-  }
-
-  private prev = () => {
-    this.setActive(this.props.active - 1)
-  }
-
-  private toggleMenu = () => {
-    this.setState({...this.state, menuActive: !this.state.menuActive})
-  }
-
-  private handleKeyPress = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case "ArrowRight":
-        this.next()
-        break
-      case "ArrowLeft":
-        this.prev()
-        break
-      case " ":
-        this.toggleMenu()
-        break
-      default:
-        break
-    }
-  }
+  return i
 }
 
 export default ImageGallery

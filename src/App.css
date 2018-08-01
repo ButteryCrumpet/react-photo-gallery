@@ -44,7 +44,7 @@ header.active > nav {
 
 header > nav {
   background-color: white;
-  transition: all 0.2s ease-out;
+  transition: all 0.5s ease-in;
   position: absolute;
   height: 100vh;
   width: 100%;
@@ -53,7 +53,7 @@ header > nav {
   padding-top: 40px;
 }
 
-header nav > a {
+header a {
   text-decoration: none;
   color: inherit;
 }
@@ -68,6 +68,7 @@ header nav .nav-link {
 
 .menuToggle {
   position: relative;
+  width: 35px;
   right: 0px;
   z-index: 1000;
   cursor: pointer;
@@ -81,6 +82,12 @@ header .block {
 
 header .block > h4 {
   font-size: 2em;
+  margin: 0;
+  margin-left: 0.75em;
+}
+
+header .block > h4 > a {
+  font-size: inherit;
   margin: 0;
   margin-left: 0.75em;
 }
@@ -205,8 +212,17 @@ header .block > h4 {
   justify-content: center;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: rgb(151, 228, 209);
+}
+
+.ig-main .carousel {
+  height: 100%;
+  width: 95%;
+}
+
+.ig-main .carousel > .responsive-image {
+  transition: opacity 0.1s ease-in-out;
 }
 
 .ig-main > .details {
@@ -269,6 +285,17 @@ header .block > h4 {
   height: 2.3rem;
 }
 
+.fade-enter,
+.fade-enter-active,
+.fade-enter-done {
+  opacity: 1;
+}
+.fade-exit,
+.fade-exit-active,
+.fade-exit-done {
+  opacity: 0;
+}
+
 .responsive-image-loading {
   top: 50%;
   left: 50%;
@@ -297,9 +324,9 @@ header .block > h4 {
 }
 
 @keyframes pp-spin {
-  to {transform: translate3d(-50%, -50%, 0) rotate(360deg);}
+  to {transform: translate3d(-50%, -50%, 0) rotate(1turn);}
 }
 
 @keyframes pp-after-spin {
-  to {transform: translate3d(-50%, -50%, 0) rotate(360deg);}
+  to {transform: translate3d(-50%, -50%, 0) rotate(1turn);}
 }

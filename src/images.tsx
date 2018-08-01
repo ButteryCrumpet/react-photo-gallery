@@ -1,7 +1,7 @@
 
-export interface CategoryImageMap { [key: string]: Image[] } 
+export interface CategoryImageMap { [key: string]: ImageInfo[] } 
 
-export interface Image {
+export interface ImageInfo {
     src: string
     thumbnail: string
     id: number
@@ -15,6 +15,3 @@ declare const IG_DATA: CategoryImageMap;
 export const getEmbeddedImages = (): CategoryImageMap => {
     return IG_DATA ? IG_DATA : {}
 }
-
-
-export default getEmbeddedImages

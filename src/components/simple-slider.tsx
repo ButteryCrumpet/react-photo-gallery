@@ -35,8 +35,8 @@ class SimpleSlider extends React.Component<IProps, IState> {
         }
     }
 
-    public componentWillReceiveProps() {
-        this.setState({...this.state, scrolled: 0}) 
+    static getDerivedStateFromProps(_props: IProps, state: IState) {
+        return {...state, scrolled: 0}
     }
 
     public componentDidMount() {

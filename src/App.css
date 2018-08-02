@@ -15,7 +15,6 @@ body {
 
 header {
   z-index: 800;
-  color: rgb(151, 228, 209);
   position: relative;
   height: 60px;
   padding: 8px;
@@ -51,6 +50,7 @@ header > nav {
   left: 0px;
   top: 0px;
   padding-top: 40px;
+  z-index: 800;
 }
 
 header a {
@@ -81,9 +81,10 @@ header .block {
 }
 
 header .block > h4 {
-  font-size: 2em;
+  font-size: 1.5em;
   margin: 0;
-  margin-left: 0.75em;
+  margin-left: 0.7em;
+  cursor: pointer;
 }
 
 header .block > h4 > a {
@@ -93,12 +94,27 @@ header .block > h4 > a {
 }
 
 .details-toggle {
+  font-size: 2em;
+  margin: 0;
   cursor: pointer;
+  position: fixed;
+  right: 0px;
+  top: 89px;
+  cursor: pointer;
+  font-size: 2em;
+  width: 50px;
+  text-align: center;
+  z-index: 500;
+  color: rgb(151, 228, 209);
+}
+
+.details-toggle.active {
+  color: white;
 }
 
 @media only screen and (min-width: 768px) {
   header {
-    justify-content: flex-start;
+    
   }
 
   header > .logo {
@@ -107,6 +123,7 @@ header .block > h4 > a {
   }
 
   header > nav {
+    flex-grow: 1;
     position: relative;
     height: auto;
     width: auto;
@@ -133,34 +150,6 @@ header .block > h4 > a {
 
   .menuToggle {
     display: none!important;
-  }
-
-  .details-toggle {
-    position: fixed;
-    right: 0px;
-    top: 89px;
-    cursor: pointer;
-    text-shadow:
-    -1px -1px 0 rgb(151, 228, 209),  
-     1px -1px 0 rgb(151, 228, 209),
-     -1px 1px 0 rgb(151, 228, 209),
-      1px 1px 0 rgb(151, 228, 209);
-    font-size: 2em;
-    width: 50px;
-    text-align: center;
-  }
-
-  .details-toggle.inactive:hover {
-    text-shadow: none;
-    color: rgb(151, 228, 209);
-  }
-  
-  .details-toggle.active {
-    color: white;
-  }
-  
-  .details-toggle.inactive {
-    color: white;
   }
 }
 

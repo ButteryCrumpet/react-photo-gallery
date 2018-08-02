@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import DropDown from "./components/drop-down"
-import ResponsiveImage from "./components/responsive-image"
-import SimpleSlider from "./components/simple-slider"
-import Swipable from "./components/swipeable"
-import Carousel from './components/carousel';
+import DropDown from "./drop-down"
+import ResponsiveImage from "./responsive-image"
+import SimpleSlider from "./simple-slider"
+import Swipable from "./swipeable"
+import Carousel from './carousel';
 
-import { ImageInfo } from "./images"
+import { ImageInfo } from "../helpers/images"
 
 interface IProps {
   active: number

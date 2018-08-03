@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { RouteComponentProps } from "react-router-dom"
-import { FacebookShareButton, TwitterShareButton } from "react-share"
+import { CSSTransition } from "react-transition-group"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons"
-import { faBars, faTimes, faInfo, faExpand } from "@fortawesome/free-solid-svg-icons"
+import { faBars, faTimes, faInfo, faExternalLinkAlt, faShareAlt } from "@fortawesome/free-solid-svg-icons"
 import ImageGallery from "./components/image-gallery"
 import FullScreen from './components/full-screen';
 import { getEmbeddedImages, ImageInfo } from "./helpers/images"
 import Header from "./components/header"
+import SharePanel from './components/sharePanel';
 
 interface IProps extends RouteComponentProps<any> {
     page: "gallery" | "contact" | "biography"
@@ -17,6 +17,7 @@ interface IState {
     menuActive: boolean
     detailsActive: boolean
     dropDownActive: boolean
+    shareActive: boolean
 } 
 
 class App extends React.Component<IProps,IState> {
@@ -30,15 +31,17 @@ class App extends React.Component<IProps,IState> {
         contact: "/contact",
         biography: "/biography"
     }
+    private falseState = {
+        menuActive: false,
+        detailsActive: false,
+        dropDownActive: false,
+        shareActive: false
+    }
         
 
     constructor(props: IProps) {
         super(props)
-        this.state = {
-            menuActive: false,
-            detailsActive: false,
-            dropDownActive: false
-        }
+        this.state = this.falseState
     }
 
     public componentDidUpdate(prev: IProps) {
@@ -60,15 +63,35 @@ class App extends React.Component<IProps,IState> {
                     current={current}
                     logo={<h4>{this.pageTitle}</h4>}
                     links={this.links}>
-                    {this.renderAdditional(this.images[category][activeIndex].src)}
+                    <h4 onClick={this.menuToggle} className="menuToggle">
+                        {this.state.menuActive
+                            ? <FontAwesomeIcon icon={faTimes} />
+                            : <FontAwesomeIcon icon={faBars} />}
+                    </h4>
                 </Header>
+                <CSSTransition
+                    in={this.state.shareActive}
+                    classNames="fade"
+                    unmountOnExit={true}
+                    timeout={200}>
+                    <SharePanel />
+                </CSSTransition>
                 {this.props.page === "gallery" &&
-                <h4 onClick={this.detailsToggle} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
-                    {this.state.detailsActive
-                        ? <FontAwesomeIcon icon={faTimes} />
-                        : <FontAwesomeIcon icon={faInfo} />}
-                </h4>
-                }
+                <div className="side">
+                    <h4 onClick={this.detailsToggle} className={`details-toggle ${this.state.detailsActive ? "active" : "inactive"}`}>
+                        {this.state.detailsActive
+                            ? <FontAwesomeIcon icon={faTimes} />
+                            : <FontAwesomeIcon icon={faInfo} />}
+                    </h4>
+                    <h4 onClick={this.shareToggle}>
+                        <FontAwesomeIcon icon={faShareAlt} />
+                    </h4>
+                    <h4>
+                        <a href={this.images[category][activeIndex].src}>
+                            <FontAwesomeIcon icon={faExternalLinkAlt} />
+                        </a>
+                    </h4>
+                </div>}
                 {this.props.page === "gallery" && <ImageGallery
                     active={activeIndex}
                     images={this.images[category]}
@@ -82,36 +105,8 @@ class App extends React.Component<IProps,IState> {
         )
     }
 
-    private renderAdditional = (imageUrl: string) => {
-        return <div className="block">
-            <h4>
-                <a href={imageUrl}>
-                    <FontAwesomeIcon icon={faExpand} />
-                </a>
-            </h4>
-            <h4>
-                <FacebookShareButton url={window.location.href}>
-                    <FontAwesomeIcon icon={faFacebook} />
-                </FacebookShareButton>
-            </h4>
-            <h4>
-                <TwitterShareButton url={window.location.href}>
-                    <FontAwesomeIcon icon={faTwitter} />
-                </TwitterShareButton>
-            </h4>
-            <h4 onClick={this.menuToggle} className="menuToggle">
-                {this.state.menuActive
-                    ? <FontAwesomeIcon icon={faTimes} />
-                    : <FontAwesomeIcon icon={faBars} />}
-            </h4>
-        </div>
-    }
-
     private getCategory = () => {
         const category = this.props.match.params.cat ? this.props.match.params.cat : ""
-        if (category === "") {
-            return Object.keys(this.images)[0]
-        }
         if (!this.images.hasOwnProperty(category)) {
             return Object.keys(this.images)[0]
         }
@@ -136,15 +131,19 @@ class App extends React.Component<IProps,IState> {
     }
 
     private dropDownToggle = () => {
-        this.setState({...this.state, dropDownActive: !this.state.dropDownActive})
+        this.setState({...this.falseState, dropDownActive: !this.state.dropDownActive})
     }
 
     private detailsToggle = () => {
-        this.setState({...this.state, detailsActive: !this.state.detailsActive})
+        this.setState({...this.falseState, detailsActive: !this.state.detailsActive})
     }
 
     private menuToggle = () => {
-        this.setState({...this.state, menuActive: !this.state.menuActive})
+        this.setState({...this.falseState, menuActive: !this.state.menuActive})
+    }
+
+    private shareToggle = () => {
+        this.setState({...this.falseState, shareActive: !this.state.shareActive})
     }
 }
 

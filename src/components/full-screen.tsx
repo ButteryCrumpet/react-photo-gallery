@@ -5,6 +5,7 @@ interface IState {
 }
 
 class FullScreen extends React.Component <{}, IState> {
+
   constructor(props: {}) {
     super(props)
     this.state = {
@@ -14,8 +15,17 @@ class FullScreen extends React.Component <{}, IState> {
   }
 
   render() {
+    const style = {
+      height: this.state.height,
+      maxHeight: this.state.height,
+      overflow: "hidden",
+      position: "fixed" as "fixed",
+      top: "0px",
+      left: "0px",
+      width: "100%"
+    }
     return (
-      <div style={{height: this.state.height, maxHeight: this.state.height, overflow: "hidden"}}>
+      <div style={style}>
         {this.props.children}
       </div>
     )

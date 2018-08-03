@@ -4,7 +4,9 @@ import DropDown from "./drop-down"
 import ResponsiveImage from "./responsive-image"
 import SimpleSlider from "./simple-slider"
 import Swipable from "./swipeable"
-import Carousel from './carousel';
+import Carousel from './carousel'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faChevronLeft, faChevronRight, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
 
 import { ImageInfo } from "../helpers/images"
 
@@ -34,7 +36,9 @@ const ImageGallery: React.SFC<IProps> = (props) => {
         </DropDown>
         <div className="ig-dropdown-control" onClick={props.toggleDropdown}>
           <div>
-            {props.dropdownActive ? "\u2227" : "\u2228"}
+            {props.dropdownActive
+              ? <FontAwesomeIcon icon={faChevronUp} />
+              : <FontAwesomeIcon icon={faChevronDown} />}
           </div>
         </div>
       </div>
@@ -42,8 +46,12 @@ const ImageGallery: React.SFC<IProps> = (props) => {
       <Swipable swipeL={next} swipeR={prev}>
         <div className="ig-main"> 
           <Carousel src={image.src} />
-          <div onClick={prev} className="ig-prev">&#8810;</div>
-          <div onClick={next} className="ig-next">&#8811;</div>
+          <div onClick={prev} className="ig-prev">
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </div>
+          <div onClick={next} className="ig-next">
+            <FontAwesomeIcon icon={faChevronRight} />
+          </div>
           <div className={`details ${props.detailsActive ? "active" : "inactive"}`}>
               <h4>{image.title}</h4>
               <p>{image.description}</p>

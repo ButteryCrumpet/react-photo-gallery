@@ -3,6 +3,7 @@ import { FacebookShareButton, TwitterShareButton } from "react-share"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons"
 import { faLink } from "@fortawesome/free-solid-svg-icons"
+import copyToClipboard from "../helpers/copytoclipboard"
 
 const SharePanel: React.SFC<{}> = () => {
     const copy = () => {
@@ -32,23 +33,6 @@ const SharePanel: React.SFC<{}> = () => {
     )
 }
 
-const copyToClipboard = (string: string) => {
-    const el = document.createElement('textarea')
 
-    el.value = string
-    el.contentEditable = "true"
-    el.readOnly = true
-    el.style.position = "absolute"
-    el.style.height = "0px"
-    el.style.width = "0px"
-    el.style.fontSize = "40px"
-    
-    document.body.appendChild(el)
-    el.select()
-    el.setSelectionRange(0, string.length)
-    const result = document.execCommand('copy')
-    document.body.removeChild(el)
-    return result
-}
 
 export default SharePanel

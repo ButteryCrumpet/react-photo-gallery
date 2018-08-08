@@ -108,6 +108,9 @@ class App extends React.Component<IProps,IState> {
     private getCategory = () => {
         const category = this.props.match.params.cat ? this.props.match.params.cat : ""
         if (!this.images.hasOwnProperty(category)) {
+            if (this.images.hasOwnProperty("portrait")) {
+                return "portrait"
+            }
             return Object.keys(this.images)[0]
         }
         return category
